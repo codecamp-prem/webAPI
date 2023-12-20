@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser API - Geolocation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="flex justify-center items-center h-screen bg-[#f7f7f7]">
+      <div
+        class="border bg-white shadow-[0_0_10px_rgba(0,0,0,0.1)] text-center p-5 rounded-[5px] border-solid border-[#ccc]"
+      >
+        <button id="geoLocation" class="mb-5">Get location</button>
+        <div id="locationDisplay">Your Location will appear here</div>
+      </div>
+    </div>
+    <script>
+      const displayArea = document.querySelector("#locationDisplay");
+      document.querySelector("#geoLocation").addEventListener("click", () => {
+        if (navigator.geolocation) {
+          // get current position with getCurrentPosition
+          navigator.geolocation.getCurrentPosition(
+            displayGeoData,
+            displayError
+          );
+
+          // update when user changes the position with watchPosition
+          navigator.geolocation.watchPosition(displayGeoData, displayError);
+        }
+      });
+      const displayGeoData = (position) => {
+        const { latitude, longitude } = position.coords;
+        displayArea.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
+      };
+      const displayError = (err) => {
+        displayArea.textContent = err.message;
+      };
+    </script>
+  </body>
+</html>
