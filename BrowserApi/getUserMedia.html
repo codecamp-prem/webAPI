@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser API - getUserMedia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="flex justify-center items-center h-screen bg-[#f7f7f7]">
+      <div
+        class="border bg-white shadow-[0_0_10px_rgba(0,0,0,0.1)] text-center p-5 rounded-[5px] border-solid border-[#ccc]"
+      >
+        <button id="startStream" class="mb-5">Start Video Stream</button>
+        <div id="errText"></div>
+        <video width="640" height="480" autoplay></video>
+      </div>
+    </div>
+    <script>
+      document
+        .querySelector("#startStream")
+        .addEventListener("click", async () => {
+          try {
+            const stream = await navigator.mediaDevices
+              .getUserMedia({
+                audio: true,
+                video: { width: 1280, height: 720 },
+              })
+              .then((mediaStream) => {
+                const video = document.querySelector("video");
+                video.srcObject = mediaStream;
+                video.onloadedmetadata = () => {
+                  video.play();
+                };
+              });
+          } catch (err) {
+            console.log(err);
+            document.querySelector("#errText").textContent = err.message;
+          }
+        });
+    </script>
+  </body>
+</html>
