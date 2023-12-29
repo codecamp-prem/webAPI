@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser API - getUserMedia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <!--Global Container-->
+    <div class="flex items-center justify-center min-h-screen bg-cyan-50">
+      <!---->
+      <div class="bg-white p-6 m-3 space-y-10 shadow-2xl rounded-3xl md:p-40">
+        <!--Gallery Showcase-->
+        <div class="grid gap-4 md:grid-cols-3 lg:grid-cols-4" id="gallery">
+          <!--Single Image-->
+          <div class="relative group">
+            <img
+              src="https://picsum.photos/seed/picsum/200/300"
+              alt=""
+              class="w-72"
+            />
+            <div
+              class="absolute bottom-0 left-0 right-0 p-2 px-4 text-white duration-500 bg-black opacity-0 group-hover:opacity-100 bg-opacity-40"
+            >
+              <div class="flex justify-between w-full">
+                <div class="font-normal">
+                  <p class="text-sm">Abstract money laundering</p>
+                  <p class="text-xs">542 likes - 53 Shares</p>
+                </div>
+                <div class="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-bookmark"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.2"
+                    stroke="#ffffff"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M9 4h6a2 2 0 0 1 2 2v14l-5 -3l-5 3v-14a2 2 0 0 1 2 -2"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Single Image-->
+          <div class="relative group">
+            <img
+              src="https://picsum.photos/seed/picsum/200/300"
+              alt=""
+              class="w-72"
+            />
+            <div
+              class="absolute bottom-0 left-0 right-0 p-2 px-4 text-white duration-500 bg-black opacity-0 group-hover:opacity-100 bg-opacity-40"
+            >
+              <div class="flex justify-between w-full">
+                <div class="font-normal">
+                  <p class="text-sm">Abstract money laundering</p>
+                  <p class="text-xs">542 likes - 53 Shares</p>
+                </div>
+                <div class="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-bookmark"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.2"
+                    stroke="#ffffff"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M9 4h6a2 2 0 0 1 2 2v14l-5 -3l-5 3v-14a2 2 0 0 1 2 -2"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            dynamicHtml();
+          }
+        });
+      });
+
+      const images = document.querySelectorAll(".relative");
+
+      images.forEach((img) => observer.observe(img));
+
+      async function dynamicHtml() {
+        let response = await fetch("https://picsum.photos/seed/picsum/info");
+        const image = await response.json();
+        console.log(image);
+        let html = `<!--Dynamic Single Image-->
+          <div class="relative group">
+            <img
+              src="${image.download_url}"
+              alt=""
+              class="w-72"
+            />
+            <div
+              class="absolute bottom-0 left-0 right-0 p-2 px-4 text-white duration-500 bg-black opacity-0 group-hover:opacity-100 bg-opacity-40"
+            >
+              <div class="flex justify-between w-full">
+                <div class="font-normal">
+                  <p class="text-sm">${image.author}</p>
+                  <p class="text-xs">${image.height}</p>
+                </div>
+                <div class="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-bookmark"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.2"
+                    stroke="#ffffff"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M9 4h6a2 2 0 0 1 2 2v14l-5 -3l-5 3v-14a2 2 0 0 1 2 -2"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>`;
+        console.log(html);
+        document.getElementById("gallery").innerHTML += html;
+      }
+    </script>
+  </body>
+</html>
